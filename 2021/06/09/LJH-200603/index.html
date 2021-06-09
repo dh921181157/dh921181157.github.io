@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> - WinanDH</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="#路由器界面取证，从协议破解到动态爬虫（实战篇）
+以小米4C、TP-LINK-TL-WDR5620为例。介绍协议破解思路，协议破解方法及JS动态数据解析。只要路由敢发，我们就敢解。使用者只需连接路由,"> 
+    <meta name="author" content="WinanDH"> 
+    <link rel="alternative" href="atom.xml" title="WinanDH" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">WinanDH</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle"></h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title"></h1>
+        <div class="stuff">
+            <span>六月 09, 2021</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>#路由器界面取证，从协议破解到动态爬虫（实战篇）</p>
+<p>以<strong>小米4C、TP-LINK-TL-WDR5620</strong>为例。介绍<strong>协议破解思路，协议破解方法及JS动态数据解析</strong>。<strong>只要路由敢发，我们就敢解</strong>。使用者只需连接路由（WIFI/网线LAN口）就可自动获取路由IP、解析数据并保存。</p>
+<h3 id="一、小米4C登入协议破解"><a href="#一、小米4C登入协议破解" class="headerlink" title="一、小米4C登入协议破解"></a>一、小米4C登入协议破解</h3><p>输入错误密码，追到错误码及登入验证函数<strong>login</strong><br><img src="https://gitee.com/winandh/image/raw/master/img/1591168600(1).jpg" alt="1"><br>分析登入验证JS源码，追踪token加密算法<br><img src="https://gitee.com/winandh/image/raw/master/img/1591168982(1).jpg" alt="2"><br>程序对Token俩次<strong>CryptoJS.SHA1加密</strong>，其中加密<strong>密钥key</strong>登入web页面初始化返回的状态响应</p>
+<p>还原token算法，测试并拼接URL，点击连接拼接后的URL<br><img src="https://gitee.com/winandh/image/raw/master/img/1591170265(1).jpg" alt="3"></p>
+<p><img src="https://gitee.com/winandh/image/raw/master/img/1591170552(1).jpg" alt="4"></p>
+<p>页面数据为JS动态加载，需要编写动态爬虫爬取数据。构造GET请求，解析JSON响应数据<br><img src="https://gitee.com/winandh/image/raw/master/img/5.jpg" alt="5"></p>
+<p>小米4C界面破解基本结束，测试结果<br><img src="https://gitee.com/winandh/image/raw/master/img/1591171161(1).jpg" alt="6"></p>
+<h3 id="二、TP-LINK-TL-WDR5620-协议破解"><a href="#二、TP-LINK-TL-WDR5620-协议破解" class="headerlink" title="二、TP-LINK-TL-WDR5620 协议破解"></a>二、TP-LINK-TL-WDR5620 协议破解</h3><p>TPLINK登入验证<br><img src="https://gitee.com/winandh/image/raw/master/img/1591171962(1).jpg" alt="7"><br>Burp抓包，网页堆栈跟踪，找到其函数位置<br><img src="https://gitee.com/winandh/image/raw/master/img/1591172459(1).jpg" alt="8"><br>Burp Forward开追，找到key，key为点击确定后响应数据。<br><img src="https://gitee.com/winandh/image/raw/master/img/1591173803(1).jpg" alt="9"><br>分析网页JS源码，还原key加密算法，携带key获取token。测试结果如下<br><img src="https://gitee.com/winandh/image/raw/master/img/1591174160(1).jpg" alt="10"><br>模拟网页构造POST请求，解析响应JSON，测试结果。<br><img src="https://gitee.com/winandh/image/raw/master/img/1591174444(1).jpg" alt="11"><br><img src="https://gitee.com/winandh/image/raw/master/img/1591174650(1).jpg" alt="12"></p>
+<h3 id="END"><a href="#END" class="headerlink" title="END"></a>END</h3>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>

@@ -10,11 +10,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="###微信本地文件名逆向（超详细傻瓜式教程）2020-6-11WinanDH
+    <meta name="description" content="微信本地文件名逆向（超详细傻瓜式教程）2020-6-11WinanDH
 
 目的：解密新版微信本地文件 tencent/MicroMsg/...MD5,文件命名算法
 
-思路：查看MD5文件内容，,"> 
+思路：查看MD5文件内容，逆向a,"> 
     <meta name="author" content="WinanDH"> 
     <link rel="alternative" href="atom.xml" title="WinanDH" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -54,7 +54,7 @@
 
         </div>
         <div class="content markdown">
-            <p>###微信本地文件名逆向（超详细傻瓜式教程）<br><code>2020-6-11</code><br><code>WinanDH</code></p>
+            <h3 id="微信本地文件名逆向（超详细傻瓜式教程）"><a href="#微信本地文件名逆向（超详细傻瓜式教程）" class="headerlink" title="微信本地文件名逆向（超详细傻瓜式教程）"></a>微信本地文件名逆向（超详细傻瓜式教程）</h3><p><code>2020-6-11</code><br><code>WinanDH</code></p>
 <ul>
 <li><p><strong>目的：</strong><code>解密新版微信本地文件 tencent/MicroMsg/...MD5,文件命名算法</code></p>
 </li>
@@ -102,7 +102,8 @@
 </li>
 <li><p>14 根据步骤8中，从account.bin中读取4096字节保存成字符串，并用JAVA md5算法加密字符串（java中与C++ mD5存在差异。实现：读取指定字符串长度并实现C++与JAVA相同MD5算法）<br>具体实现参考我在博客园的随笔<a target="_blank" rel="noopener" href="https://www.cnblogs.com/dh666/p/11821233.html">https://www.cnblogs.com/dh666/p/11821233.html</a></p>
 </li>
-<li><p>15 md5.java测试（测试微信版本为7.0.15）<br>（注：javac md5.java:根据java代码生成可执行.class文件。java md5 中md5为类名）<br><img src="https://gitee.com/winandh/image/raw/master/img/VxName_16.jpg" alt="16"><br>####end:<br>新版本地文件没算法为 ：读取account.bin 4096字节计算的MD5值。做个笔记，提供简单破解方法。</p>
+<li><p>15 md5.java测试（测试微信版本为7.0.15）<br>（注：javac md5.java:根据java代码生成可执行.class文件。java md5 中md5为类名）<br><img src="https://gitee.com/winandh/image/raw/master/img/VxName_16.jpg" alt="16"></p>
+<h4 id="end"><a href="#end" class="headerlink" title="end:"></a>end:</h4><p>新版本地文件没算法为 ：读取account.bin 4096字节计算的MD5值。做个笔记，提供简单破解方法。</p>
 </li>
 </ul>
 
