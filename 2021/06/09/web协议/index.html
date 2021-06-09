@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> - WinanDH</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="一、小米4C登入协议破解
+输入错误密码，追到错误码及登入验证函数login
+
+分析login函数，追到加密函数Encrypt
+123456789101112131415161718192021222,"> 
+    <meta name="author" content="WinanDH"> 
+    <link rel="alternative" href="atom.xml" title="WinanDH" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">WinanDH</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle"></h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title"></h1>
+        <div class="stuff">
+            <span>六月 09, 2021</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h3 id="一、小米4C登入协议破解"><a href="#一、小米4C登入协议破解" class="headerlink" title="一、小米4C登入协议破解"></a>一、小米4C登入协议破解</h3><ul>
+<li><p>输入错误密码，追到错误码及登入验证函数<strong>login</strong><br><img src="https://gitee.com/winandh/image/raw/master/img/1591168600(1).jpg" alt="1"></p>
+</li>
+<li><p>分析login函数，追到加密函数Encrypt</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Encrypt = &#123;</span><br><span class="line">    key: <span class="string">&#x27;a2ffa5c9be07488bbb04a3a47d3c5f6a&#x27;</span>,</span><br><span class="line">    iv: <span class="string">&#x27;64175472480004614961023454661220&#x27;</span>,</span><br><span class="line">    nonce: <span class="literal">null</span>,</span><br><span class="line">    init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> nonce = <span class="built_in">this</span>.nonceCreat();</span><br><span class="line">        <span class="built_in">this</span>.nonce = nonce;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.nonce;</span><br><span class="line">    &#125;,</span><br><span class="line">    nonceCreat: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> type = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">var</span> deviceId = <span class="string">&#x27;54:a7:03:56:0f:48&#x27;</span>;</span><br><span class="line">        <span class="keyword">var</span> time = <span class="built_in">Math</span>.floor(<span class="keyword">new</span> <span class="built_in">Date</span>().getTime() / <span class="number">1000</span>);</span><br><span class="line">        <span class="keyword">var</span> random = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">10000</span>);</span><br><span class="line">        <span class="keyword">return</span> [type, deviceId, time, random].join(<span class="string">&#x27;_&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    oldPwd : <span class="function"><span class="keyword">function</span>(<span class="params">pwd</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> CryptoJS.SHA1(<span class="built_in">this</span>.nonce + CryptoJS.SHA1(pwd + <span class="built_in">this</span>.key).toString()).toString();</span><br><span class="line">    &#125;,</span><br><span class="line">    newPwd: <span class="function"><span class="keyword">function</span>(<span class="params">pwd, newpwd</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> key = CryptoJS.SHA1(pwd + <span class="built_in">this</span>.key).toString();</span><br><span class="line">        key = CryptoJS.enc.Hex.parse(key).toString();</span><br><span class="line">        key = key.substr(<span class="number">0</span>, <span class="number">32</span>);</span><br><span class="line">        key = CryptoJS.enc.Hex.parse(key);</span><br><span class="line">        <span class="keyword">var</span> password = CryptoJS.SHA1(newpwd + <span class="built_in">this</span>.key).toString();</span><br><span class="line">        <span class="keyword">var</span> iv = CryptoJS.enc.Hex.parse(<span class="built_in">this</span>.iv);</span><br><span class="line">        <span class="keyword">var</span> aes = CryptoJS.AES.encrypt(</span><br><span class="line">                password,</span><br><span class="line">                key,</span><br><span class="line">                &#123;<span class="attr">iv</span>: iv, <span class="attr">mode</span>: CryptoJS.mode.CBC, <span class="attr">padding</span>: CryptoJS.pad.Pkcs7 &#125;</span><br><span class="line">            ).toString();</span><br><span class="line">        <span class="keyword">return</span> aes;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>分析登入验证JS源码，追踪token加密算法<br><img src="https://gitee.com/winandh/image/raw/master/img/1591168982(1).jpg" alt="2"></p>
+</li>
+<li><p>整理后的token加密算法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">token = CryptoJS.<span class="built_in">SHA1</span>(<span class="keyword">this</span>.nonce + CryptoJS.<span class="built_in">SHA1</span>(pwd + <span class="keyword">this</span>.key).<span class="built_in">toString</span>()).<span class="built_in">toString</span>();</span><br><span class="line">密码+后端返回的一个key进行一次SHA1加密，转换成字符串之后与nonce相加再进行一个SHA1加密，</span><br><span class="line">最后进行一次字符串的转换就的到最终的密文。</span><br><span class="line">nonce = <span class="string">&quot;0_&quot;</span>+ mac +<span class="string">&quot;_&quot;</span>+ <span class="built_in">str</span>(<span class="built_in"><span class="keyword">int</span></span>(time.<span class="built_in">time</span>())) +<span class="string">&quot;_&quot;</span>+<span class="built_in">str</span>(random.<span class="built_in">randint</span>(<span class="number">1000</span>,<span class="number">10000</span>))</span><br><span class="line"><span class="keyword">this</span>.key:登入页面初始化 由服务端返回key</span><br><span class="line">pwd:用户输入密码s</span><br></pre></td></tr></table></figure>
+<p>python获取this.key 代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">home_request = requests.get(<span class="string">&#x27;http://&#x27;</span> + host + <span class="string">&#x27;/cgi-bin/luci/web/home&#x27;</span>)  <span class="comment"># 通过get获取web登入界面数据   #host:路由器ip地址</span></span><br><span class="line">key = re.findall(<span class="string">r&#x27;key:\s\&#x27;(.*)\&#x27;,&#x27;</span>, home_request.text)  <span class="comment"># key:网页初始化后，通过get请求获取key值</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>还原token算法，测试并拼接URL，点击连接拼接后的URL<br><img src="https://gitee.com/winandh/image/raw/master/img/1591170265(1).jpg" alt="3"></p>
+<p><img src="https://gitee.com/winandh/image/raw/master/img/1591170552(1).jpg" alt="4"></p>
+<ul>
+<li>页面数据为JS动态加载。构造GET请求，解析JSON响应数据<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">headers = &#123;</span><br><span class="line">        <span class="string">&#x27;Host&#x27;</span>: host,</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;X-Requested-With&#x27;</span>: <span class="string">&#x27;XMLHttpRequest&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;http://&#x27;</span> + host + <span class="string">&#x27;/cgi-bin/luci/;stok=&#x27;</span> + token + <span class="string">&#x27;/web/home&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">resp = requests.get(</span><br><span class="line">    <span class="string">&#x27;http://&#x27;</span>+host+<span class="string">&#x27;/cgi-bin/luci/;stok=&#x27;</span>+token+<span class="string">&#x27;/api/xqnetwork/wifi_detail_all&#x27;</span>,</span><br><span class="line">    headers=headers)</span><br><span class="line"></span><br><span class="line">data = resp.content</span><br><span class="line">data.decode(encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">data = json.loads(data)</span><br><span class="line">device = data[&#x27;info&#x27;][0][&#x27;device&#x27;]          #连接设备名</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="二、TP-LINK-TL-WDR5620-协议破解"><a href="#二、TP-LINK-TL-WDR5620-协议破解" class="headerlink" title="二、TP-LINK-TL-WDR5620 协议破解"></a>二、TP-LINK-TL-WDR5620 协议破解</h3><p><img src="https://gitee.com/winandh/image/raw/master/img/1591171962(1).jpg" alt="7"></p>
+<ul>
+<li><p>Burp抓包，网页堆栈跟踪，找到其函数位置<br><img src="https://gitee.com/winandh/image/raw/master/img/1591172459(1).jpg" alt="8"></p>
+</li>
+<li><p>参数key获取方法：Burp Forward开追，找到响应key，key为点击确定后响应数据。<br><img src="https://gitee.com/winandh/image/raw/master/img/1591173803(1).jpg" alt="9"></p>
+</li>
+<li><p>key加密算法,参数a为输入的密码。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.orgAuthPwd = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="built_in">this</span>.securityEncode(a, <span class="string">&quot;RDpbLfCPsJZ7fiv&quot;</span>, <span class="string">&quot;yLwVl0zKqws7LgKPRQ84Mdt708T1qQ3Ha7xv3H7NyU84p21BriUWBU43odz3iP4rBL3cD02KZciXTysVXiV8ngg6vL48rPJyAUw0HurW20xqxv9aYb4M9wK1Ae0wlro510qXeU07kV57fQMc8L6aLgMLwygtc0F10a0Dg70TOoouyFhdysuRMO51yY5ZlOZZLEal1h0t9YQW0Ko7oBwmCAHoic4HYbUyVeU3sfQ1xtXcPcf1aT303wAQhv66qzW&quot;</span>)</span><br><span class="line">   &#125;;</span><br><span class="line">   <span class="built_in">this</span>.securityEncode = <span class="function"><span class="keyword">function</span>(<span class="params">a, c, b</span>) </span>&#123;</span><br><span class="line">	</span><br><span class="line">       <span class="keyword">var</span> d = <span class="string">&quot;&quot;</span>,</span><br><span class="line">       e, f, g, h, k = <span class="number">187</span>,</span><br><span class="line">       l = <span class="number">187</span>;</span><br><span class="line">       f = a.length;</span><br><span class="line">       g = c.length;</span><br><span class="line">       h = b.length;</span><br><span class="line">       e = f &gt; g ? f: g;</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">var</span> m = <span class="number">0</span>; m &lt; e; m++) l = k = <span class="number">187</span>,</span><br><span class="line">       m &gt;= f ? l = c.charCodeAt(m) : m &gt;= g ? k = a.charCodeAt(m) : (k = a.charCodeAt(m), l = c.charCodeAt(m)),</span><br><span class="line">       d += b.charAt((k ^ l) % h);</span><br><span class="line">       <span class="keyword">return</span> d</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>携带key获取token，python代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#TP-LINK 登入检测验证，获取状态码及stok</span><br><span class="line">def login_check():</span><br><span class="line">    url = <span class="string">&#x27;http://&#x27;</span> + host_ip</span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;method&quot;</span>: <span class="string">&quot;do&quot;</span>,</span><br><span class="line">        <span class="string">&quot;login&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;password&quot;</span>: encrypt_pwd</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    r = requests.post(url, json=data)</span><br><span class="line">    Result = r.json()</span><br><span class="line">    token = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    error_code = Result[<span class="string">&#x27;error_code&#x27;</span>]</span><br><span class="line">    <span class="keyword">if</span> (error_code == <span class="number">0</span>):</span><br><span class="line">        token = Result[<span class="string">&#x27;stok&#x27;</span>]</span><br><span class="line">        print(<span class="string">&#x27;success!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://gitee.com/winandh/image/raw/master/img/1591174160(1).jpg" alt="10"></p>
+</li>
+<li><p>模拟网页构造POST请求，解析响应JSON</p>
+</li>
+<li><p>测试结果<br><img src="https://gitee.com/winandh/image/raw/master/img/1591174444(1).jpg" alt="11"><br><img src="https://gitee.com/winandh/image/raw/master/img/1591174650(1).jpg" alt="12"></p>
+</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
